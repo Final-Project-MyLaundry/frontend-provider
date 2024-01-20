@@ -2,7 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 import LoginScreen from "../screens/loginScreen";
 import RegisterScreen from "../screens/registerScreen";
-// import TabNavigator from "./tabNavigator";
+import TabNavigator from "./tabNavigator";
 // import { useContext } from 'react';
 // import { LoginContext } from '../context/loginContext';
 // import DetailContentScreen from '../screens/detailContentScreen';
@@ -15,18 +15,19 @@ export default function StackNavigator() {
         <Stack.Navigator screenOptions={{
             headerShown: false
         }}>
-            <Stack.Screen name="Register" component={RegisterScreen} />
-            <Stack.Screen name="Login" component={LoginScreen} />
 
-            {/* {isLogin ? (
+
+            {isLogin ? (
                 <>
                     <Stack.Screen name="Home" component={TabNavigator} />
-                    <Stack.Screen name="Postingan" component={DetailContentScreen} options={{ headerShown: true }}/>
+                    {/* <Stack.Screen name="Postingan" component={DetailContentScreen} options={{ headerShown: true }}/> */}
                 </>
             ) : (
                 <>
+                    <Stack.Screen name="Register" component={RegisterScreen} />
+                    <Stack.Screen name="Login" component={LoginScreen} />
                 </>
-            )} */}
+            )}
         </Stack.Navigator>
     )
 }
