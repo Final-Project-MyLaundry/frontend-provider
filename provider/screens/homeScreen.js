@@ -1,5 +1,6 @@
 import { StyleSheet, View } from "react-native";
-import CardContent from "../src/components/cardContent";
+import CardContent from "../src/components/cardSaldo";
+import CardOrder from "../src/components/cardOrder";
 
 
 
@@ -7,6 +8,7 @@ export default function HomeScreen() {
     return <>
         <View style={styles.container}>
             <CardContent/>
+            <CardOrder/>
         </View>
     </>
 }
