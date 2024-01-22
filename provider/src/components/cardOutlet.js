@@ -1,7 +1,7 @@
 import { FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-export default function CardContent() {
+export default function CardOutlet() {
 
     const data = {
         _id: "65a8eb61cbca81fd2982c110",
@@ -24,7 +24,8 @@ export default function CardContent() {
                 "description": "topup laundry",
                 amount: 100.000,
                 "paymentType": "Saldo",
-                "paymentStatus": "DONE"
+                "paymentStatus": "DONE",
+                accountNumber: "123-4567-89012345-6"
             }
         ],
         outlets: [
@@ -70,111 +71,62 @@ export default function CardContent() {
             }
         ]
     }
-
     const navigation = useNavigation()
+
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
                 <View style={styles.content}>
-                    <View style={styles.textContent}>
-                        <Text style={styles.welcome}>WELCOME</Text>
-                        <Text >{data.name}</Text>
-                    </View>
-                    <View style={styles.positionUserImage} >
-                        <Image
-                            source={require('../../assets/logo.png')}
-                            style={{ width: 80, height: 70 }}
-                        />
-                    </View>
+                    <Image
+                        source={require('../../assets/outlet.png')}
+                        style={{ width: 100, height: 100, marginRight: 10 }}
+                    />
 
-                </View>
-                <View style={styles.card}>
-                    <View style={styles.saldoContainer}>
-                        <Text style={styles.saldoText}>Saldo     :  Rp. 1.000.000.000,00</Text>
-                        <Text style={styles.nameText}>Name       :  {data.name}</Text>
+                    <View style={styles.textContent}>
+                        <Text style={styles.user}>{data.outlets[0].name}</Text>
+                        <Text>Alamat : {data.outlets[0].address.street}</Text>
                     </View>
-                    <TouchableOpacity style={styles.claimButton}>
-                        <Text style={styles.claimButtonText}>Claim</Text>
-                    </TouchableOpacity>
                 </View>
-                <Text style={{ fontWeight: 'bold', borderBottomWidth: 1, paddingBottom: 5 }}>List Of Orders :</Text>
+                <Text style={{ fontWeight: 'bold', borderTopWidth: 1, paddingTop: 5, paddingBottom: 5, marginTop: 10 }}>History Of Orders :</Text>
             </ScrollView>
         </SafeAreaView>
     );
-
-
 }
 
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        borderColor: "#D4D4D4",
         padding: 20,
         borderTopWidth: 1,
-
+        borderColor: "#D4D4D4",
     },
     content: {
         height: "auto",
         flexDirection: 'row',
+        marginTop : -5
     },
     positionUserImage: {
         flex: 1,
-        marginLeft: 50
     },
     textContent: {
         flex: 2,
     },
-    welcome: {
-        fontWeight: "bold",
-        fontSize: 30
-    },
-    card: {
-        backgroundColor: '#0C94D2',
-        borderRadius: 15,
-        marginTop: 10,
-        marginBottom: 10,
-        padding: 10,
-        shadowColor: 'black',
-        shadowOffset: {
-            width: 10,
-            height: 10,
-        },
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
-        width: 'auto',
-        height: 130,
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        flexDirection: 'row',
-        borderColor: "gray",
-        borderWidth: 1,
-        elevation: 7,
-    },
-    saldoContainer: {
-        flex: 1,
-        marginTop: 10,
-    },
-    saldoText: {
-        fontWeight: 'bold',
-        fontSize: 16,
-        color: 'white'
-    },
-    claimButton: {
-        backgroundColor: 'white',
-        borderRadius: 8,
-        paddingVertical: 8,
-        paddingHorizontal: 12,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 10,
-    },
-    claimButtonText: {
-        color: 'black',
-        fontWeight: 'bold',
-
-    },
     nameText: {
         fontSize: 14,
-        color: 'white',
+        color: 'black',
+    },
+    textContent: {
+        flex: 2,
+    },
+    user: {
+        fontWeight: "bold",
+        fontSize: 20,
+        marginTop: 10
+    },
+    contentImage: {
+        flex: 1,
+        height: 200,
+        borderRadius: 8,
+        marginTop: 5
     }
 });

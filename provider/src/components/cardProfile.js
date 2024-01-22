@@ -86,8 +86,10 @@ export default function CardProfile() {
                     <View style={styles.textContent}>
                         <Text style={styles.welcome}>{data.name} </Text>
                         <Text>{data.phone}</Text>
+                        <TouchableOpacity >
+                            <Text style={styles.claimButtonText}>Update</Text>
+                        </TouchableOpacity>
                     </View>
-
                 </View>
                 <View style={styles.card}>
                     <View style={styles.saldoContainer}>

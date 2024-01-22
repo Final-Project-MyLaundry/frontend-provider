@@ -4,6 +4,7 @@ import HomeScreen from '../screens/homeScreen';
 import ProfileScreen from '../screens/profileScreen';
 import { Image } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MyOutletScreen from '../screens/myOutletScreen';
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
@@ -17,7 +18,10 @@ export default function TabNavigator() {
                         iconName = 'home';
                     } else if (route.name === 'Profile') {
                         iconName = 'person';
+                    } else if (route.name === 'Outlet') {
+                        iconName = 'storefront-outline'
                     }
+
                     return <Ionicons name={iconName} size={size} color={focused ? '#0C94D2' : color} />;
                 },
                 tabBarLabel: () => null,
@@ -36,19 +40,31 @@ export default function TabNavigator() {
                 options={{
                     headerTitle: () => (
                         <Image
+                            source={require('../assets/mylaundry.png')}
+                            style={{ width: 120, height: 30, marginTop: 15 }}
+                        />
+                    ),
+                }} />
+              <Tab.Screen
+                name="Outlet"
+                component={MyOutletScreen}
+                options={{
+                    headerTitle: () => (
+                        <Image
                             source={require('../assets/mylaundry.png')} 
                             style={{ width: 120, height: 30, marginTop: 15 }} 
                         />
                     ),
-                }} />
+                }}
+            />
             <Tab.Screen
                 name="Profile"
                 component={ProfileScreen}
                 options={{
                     headerTitle: () => (
                         <Image
-                            source={require('../assets/mylaundry.png')} 
-                            style={{ width: 120, height: 30, marginTop: 15 }} 
+                            source={require('../assets/mylaundry.png')}
+                            style={{ width: 120, height: 30, marginTop: 15 }}
                         />
                     ),
                 }}
