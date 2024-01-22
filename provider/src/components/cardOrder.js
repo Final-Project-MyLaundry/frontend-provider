@@ -18,6 +18,7 @@ export default function CardOrder() {
             }
         })
         const result = await response.json()
+        // console.log(result, "ini result");
         setOrder(result)
     }
 
@@ -25,32 +26,35 @@ export default function CardOrder() {
         fetchOrder()
     }, [])
 
-    const navigation = useNavigation()
     const content = ({ item, index }) => (
         <>
-                <TouchableOpacity key={index}>
-                    <View style={styles.cardOrder} key={index} >
-                        <Image
-                            source={require('../../assets/order.png')}
-                            style={{ width: 40, height: 50, marginTop: 5 }}
-                        />
-                        <View style={styles.orderText}>
-                            <Text style={{ fontWeight: 'bold', fontSize: 14 }}>Pesanan No : {item._id}</Text>
-                            <Text style={{ fontWeight: 'bold', fontSize: 12, color: 'gray' }}>Outlet : Awesome Laundry</Text>
-                            <Text style={{ color: item.status === 'Completed' ? 'green' : 'red' }}>{item.progress}</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
+             <TouchableOpacity key={index}>
+             <View style={styles.cardOrder} key={index} >
+                 <Image
+                     source={require('../../assets/order.png')}
+                     style={{ width: 40, height: 50, marginTop: 5 }}
+                 />
+                 <View style={styles.orderText}>
+                     <Text style={{ fontWeight: 'bold', fontSize: 14 }}>Pesanan No : {item._id}</Text>
+                     <Text style={{ fontWeight: 'bold', fontSize: 12, color: 'gray' }}>Outlet : {item.outlet}</Text>
+                     <Text style={{ color: item.status === 'Completed' ? 'green' : 'red' }}>{item.progress}</Text>
+                 </View>
+             </View>
+         </TouchableOpacity>
         </>
     );
 
     return (
         <SafeAreaView style={styles.container}>
+        {order.length == 0 ? (
+            <Text style={{fontSize: 20, fontWeight: 'bold'}}>No order yet</Text>
+        ):(
             <FlatList
                 data={order}
                 renderItem={content}
                 keyExtractor={item => item._id}
             />
+        )}
         </SafeAreaView>
     );
 

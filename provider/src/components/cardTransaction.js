@@ -1,119 +1,7 @@
 import { FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-export default function CardTransaction() {
-    const orders = [
-        {
-            orderId: "1",
-            customerName: "John Doe",
-            "items": [
-                {
-                    "itemId": "101",
-                    "itemName": "T-Shirt",
-                    "quantity": 3
-                },
-                {
-                    "itemId": "102",
-                    "itemName": "Jeans",
-                    "quantity": 2
-                }
-            ],
-            totalAmount: 50.00,
-            "pickupDate": "2024-01-20",
-            "deliveryDate": "2024-01-22",
-            status: "Pending",
-            description : "Order laundry"
-        },
-        {
-            orderId: "2",
-            customerName: "Jane Smith",
-            "items": [
-                {
-                    "itemId": "201",
-                    "itemName": "Dress",
-                    "quantity": 1
-                },
-                {
-                    "itemId": "202",
-                    "itemName": "Blouse",
-                    "quantity": 2
-                }
-            ],
-            totalAmount: 35.00,
-            "pickupDate": "2024-01-21",
-            "deliveryDate": "2024-01-23",
-            status: "Processing",
-            description : "Order laundry"
-
-        },
-        {
-            orderId: "3",
-            customerName: "Bob Johnson",
-            "items": [
-                {
-                    "itemId": "301",
-                    "itemName": "Socks",
-                    "quantity": 5
-                },
-                {
-                    "itemId": "302",
-                    "itemName": "Shorts",
-                    "quantity": 3
-                }
-            ],
-            totalAmount: 28.50,
-            "pickupDate": "2024-01-22",
-            "deliveryDate": "2024-01-25",
-            status: "Completed",
-            description : "Order laundry"
-
-        },
-        {
-            orderId: "4",
-            customerName: "Bob Johnson",
-            "items": [
-                {
-                    "itemId": "301",
-                    "itemName": "Socks",
-                    "quantity": 5
-                },
-                {
-                    "itemId": "302",
-                    "itemName": "Shorts",
-                    "quantity": 3
-                }
-            ],
-            totalAmount: 28.50,
-            "pickupDate": "2024-01-22",
-            "deliveryDate": "2024-01-25",
-            status: "Completed",
-            description : "Order laundry"
-        },
-        {
-            orderId: "5",
-            customerName: "Bob Johnson",
-            "items": [
-                {
-                    "itemId": "301",
-                    "itemName": "Socks",
-                    "quantity": 5
-                },
-                {
-                    "itemId": "302",
-                    "itemName": "Shorts",
-                    "quantity": 3
-                }
-            ],
-            totalAmount: 28.50,
-            "pickupDate": "2024-01-22",
-            "deliveryDate": "2024-01-25",
-            status: "Completed",
-            description : "Order laundry"
-
-        }, { orderId: "6", status: "Pending", description : "-"  }, { orderId: "7", status: "Pending", description : "-" }, { orderId: "8", status: "Pending", description : "-" }
-    ]
-
-    const navigation = useNavigation()
+export default function CardTransaction({transactions }) {
     const content = ({ item, index }) => (
         <>
                 <TouchableOpacity key={index}>
@@ -123,8 +11,8 @@ export default function CardTransaction() {
                             style={{ width: 50, height: 50, marginTop: 5 }}
                         />
                         <View style={styles.orderText}>
-                            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Transactions No : 123456{index + 1}</Text>
-                            <Text>Amount : Rp. {item.totalAmount}</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 14 }}>No : {item.orderId}</Text>
+                            <Text>Amount : Rp. {item.amount}</Text>
                             <Text>Description : {item.description}</Text>
                         </View>
                     </View>
@@ -135,9 +23,9 @@ export default function CardTransaction() {
     return (
         <SafeAreaView style={styles.container}>
             <FlatList
-                data={orders}
+                data={transactions}
                 renderItem={content}
-                keyExtractor={item => item.orderId}
+                keyExtractor={item => item._id}
             />
         </SafeAreaView>
     );

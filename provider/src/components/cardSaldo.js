@@ -2,7 +2,6 @@ import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, Vi
 import { useNavigation } from "@react-navigation/native";
 import { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../../context/loginContext";
-import * as SecureStore from "expo-secure-store";
 
 export default function CardContent() {
     const { isLogin, URL } = useContext(LoginContext)
