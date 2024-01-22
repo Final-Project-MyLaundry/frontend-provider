@@ -10,6 +10,10 @@ export default function Register() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
+    const handleOnClick = () => {
+        navigation.navigate('Login')
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <Image
@@ -40,7 +44,7 @@ export default function Register() {
                 secureTextEntry
             />
 
-            <TouchableOpacity onPress={"handleOnClick"}
+            <TouchableOpacity onPress={handleOnClick}
                 style={styles.button}>
                 <Text style={{
                     fontWeight: 'bold',

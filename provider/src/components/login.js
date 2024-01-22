@@ -5,8 +5,30 @@ import { Image, SafeAreaView, StyleSheet, Text, TextInput, ToastAndroid, Touchab
 export default function Login() {
     const navigation = useNavigation()
 
-    const [ username, setUsername] = useState("")
-    const [ password, setPassword] = useState("")
+    const [email, setEmail] = useState("")
+    const [ password, setPassword] = useState("")    
+    const handleOnClick = async () => {
+        const response = await fetch('https://9a66-139-228-111-126.ngrok-free.app/users/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email,
+                password
+            })
+        })
+        const x = await response.json();
+        // console.log(x);
+
+        if (!response.ok) {
+            ToastAndroid.showWithGravity(x.message, ToastAndroid.LONG, ToastAndroid.TOP)
+        }
+
+        ToastAndroid.showWithGravity('Success Login, Welcome to My Laundry!', ToastAndroid.LONG, ToastAndroid.TOP)
+        navigation.navigate('Home')
+
+    }
     return <>
         <SafeAreaView style={styles.container}>
             <Image
@@ -17,20 +39,20 @@ export default function Login() {
 
             <TextInput
                 style={styles.input}
-                onChangeText={setUsername}
+                onChangeText={setEmail}
                 placeholder="Email"
-                value={username}
+                // value={username}
             />
 
             <TextInput
                 style={styles.input}
                 onChangeText={setPassword}
                 placeholder="Password"
-                value={password}
+                // value={password}
                 secureTextEntry
             />
 
-            <TouchableOpacity onPress={"handleOnClick"}
+            <TouchableOpacity onPress={handleOnClick}
                 style={styles.button}>
                 <Text style={{
                     fontWeight: 'bold',
