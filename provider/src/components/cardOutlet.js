@@ -1,81 +1,50 @@
 import { FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-export default function CardOutlet() {
+export default function CardOutlet({ outlet }) {
+    const navigation = useNavigation();
 
-    const outlet = [
-        {
-            outletId: 1,
-            name: "Outlet A",
-            "address": {
-                "street": "Jln. 123 Main Street",
-                "village": "Pondok Indah",
-                "district": "District X",
-                "city": "City Z"
-            },
-            "description": "A wonderful outlet offering various services.",
-            "status": "Open"
-        },
-        {
-            outletId: 2,
-            name: "Outlet B",
-            "address": {
-                "street": "Jln 456 Elm Street",
-                "village": "Kemang",
-                "district": "District Y",
-                "city": "City W"
-            },
-            "description": "Explore our high-quality services and friendly staff.",
-            "status": "Closed"
-        },
-        {
-            outletId: 3,
-            name: "Outlet C",
-            "address": {
-                "street": "Jln 789 Oak Street",
-                "village": "Cilandak",
-                "district": "District Z",
-                "city": "City X"
-            },
-            "description": "Your go-to place for top-notch services.",
-            "status": "Open"
-        }
-
-    ]
-
-    const navigation = useNavigation()
-    const content = ({ item, index }) => (
-        <>
-            <TouchableOpacity key={index}>
-                <View style={styles.cardOrder} key={index} >
-                    <Image
-                        source={require('../../assets/outlet.png')}
-                        style={{ width: 60, height: 50, marginTop: 5 }}
-                    />
-                    <View style={styles.orderText}>
-                        <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{item.name}</Text>
-                        <Text style={{ fontSize: 14, color: 'gray' }}>{item.address.street} {item.address.city}</Text>
-                        <Text style={{ color: item.status === 'Completed' ? 'green' : 'red' }}>{item.status}</Text>
-                    </View>
+    const renderContent = ({ item, index }) => (
+        <TouchableOpacity key={index}>
+            <View style={styles.cardOrder} key={index} >
+                <Image
+                    source={require('../../assets/outlet.png')}
+                    style={{ width: 60, height: 50, marginTop: 5 }}
+                />
+                <View style={styles.orderText}>
+                    <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{item.name}</Text>
+                    <Text style={{ fontSize: 14, color: 'gray' }}>{item.address.street} {item.address.city}</Text>
+                    {item.statusOpen ? (
+                        <Text style={{ color: 'green', fontWeight: 'bold' }}>BUKA</Text>
+                    ) : (
+                        <Text style={{ color: 'red', fontWeight: 'bold' }}>TUTUP</Text>
+                    )}
                 </View>
-            </TouchableOpacity>
-        </>
+            </View>
+        </TouchableOpacity>
     );
 
     return (
         <SafeAreaView style={styles.container}>
-            <FlatList
-                data={outlet}
-                renderItem={content}
-                keyExtractor={item => item.outletId}
-            />
+            {outlet.length === 0 ? (
+                <View style={styles.centerContainer}>
+                    <Text style={{ fontSize: 15 }}>There are no outlets yet,</Text>
+                    <Text style={{ fontSize: 15, fontWeight: 'bold' }}>let's register your outlet now!</Text>
+                </View>
+            ) : (
+                <FlatList
+                    data={outlet}
+                    renderItem={renderContent}
+                    keyExtractor={(item) => item._id}
+                />
+            )}
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: -20,
+        marginTop: -10,
         flexDirection: 'row',
         flex: 1,
         padding: 20,
@@ -88,12 +57,17 @@ const styles = StyleSheet.create({
         padding: 10,
         width: 'auto',
         height: 80,
-        flexDirection: 'row', // Baris untuk memisahkan saldo dan tombol klaim
+        flexDirection: 'row',
         borderColor: "gray",
         borderWidth: 1,
     },
     orderText: {
         fontSize: 14,
         marginLeft: 20,
+    },
+    centerContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
