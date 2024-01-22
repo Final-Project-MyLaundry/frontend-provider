@@ -1,132 +1,99 @@
-import { FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 export default function CardOutlet() {
 
-    const data = {
-        _id: "65a8eb61cbca81fd2982c110",
-        name: "wahyu ragil",
-        email: "wahyu@gmail.com",
-        password: "$2a$10$YwQOHyWZg/5OJsYRK7JtQejTvncBUDN0Tx8lmQqkbRUO//CzqyQku",
-        address: {
-            street: "Jln Tanah Kusir 4",
-            village: "Pondok Indah",
-            distric: "Kebayoran Lama",
-            city: "Jakarta Selatan"
+    const outlet = [
+        {
+            outletId: 1,
+            name: "Outlet A",
+            "address": {
+                "street": "Jln. 123 Main Street",
+                "village": "Pondok Indah",
+                "district": "District X",
+                "city": "City Z"
+            },
+            "description": "A wonderful outlet offering various services.",
+            "status": "Open"
         },
-        phone: "0899999999999",
-        createdAt: "2024-01-18T09:14:02.820Z",
-        updatedAt: "2024-01-18T09:14:02.820Z",
-        transactions: [
-            {
-                "_id": "65aa54fe89bfdd99fe3f60c9",
-                "userId": "65a8eb61cbca81fd2982c110",
-                "description": "topup laundry",
-                amount: 100.000,
-                "paymentType": "Saldo",
-                "paymentStatus": "DONE",
-                accountNumber: "123-4567-89012345-6"
-            }
-        ],
-        outlets: [
-            {
-                "_id": "65a7b482a9ba1cceb2bd830a",
-                name: "Awesome Outlet",
-                address: {
-                    street: "123 Main Street",
-                    village: "Pondok Indah",
-                    district: "District X",
-                    city: "City Z"
-                },
-                phone: "555-1234",
-                services: [
-                    {
-                        name: "Service A",
-                        "description": "Description A",
-                        price: 20.000
-                    },
-                    {
-                        name: "Service B",
-                        "description": "Description B",
-                        price: 30.000
-                    }
-                ],
-                reviews: [
-                    {
-                        "userId": 1,
-                        "rating": 4.5,
-                        "review": "Great service!"
-                    },
-                    {
-                        "userId": 2,
-                        "rating": 5,
-                        "review": "Excellent experience!"
-                    }
-                ],
-                userId: "65a8eb61cbca81fd2982c110",
-                statusOpen: false,
-                createdAt: "2024-01-16T14:00:00Z",
-                updatedAt: "2024-01-16T14:30:00Z",
-                image: "https://res.cloudinary.com/dyumsoglj/image/upload/v1705504961/ewy8lui9rk3i4tacpr7w.jpg"
-            }
-        ]
-    }
+        {
+            outletId: 2,
+            name: "Outlet B",
+            "address": {
+                "street": "Jln 456 Elm Street",
+                "village": "Kemang",
+                "district": "District Y",
+                "city": "City W"
+            },
+            "description": "Explore our high-quality services and friendly staff.",
+            "status": "Closed"
+        },
+        {
+            outletId: 3,
+            name: "Outlet C",
+            "address": {
+                "street": "Jln 789 Oak Street",
+                "village": "Cilandak",
+                "district": "District Z",
+                "city": "City X"
+            },
+            "description": "Your go-to place for top-notch services.",
+            "status": "Open"
+        }
+
+    ]
+
     const navigation = useNavigation()
+    const content = ({ item, index }) => (
+        <>
+            <TouchableOpacity key={index}>
+                <View style={styles.cardOrder} key={index} >
+                    <Image
+                        source={require('../../assets/outlet.png')}
+                        style={{ width: 60, height: 50, marginTop: 5 }}
+                    />
+                    <View style={styles.orderText}>
+                        <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{item.name}</Text>
+                        <Text style={{ fontSize: 14, color: 'gray' }}>{item.address.street} {item.address.city}</Text>
+                        <Text style={{ color: item.status === 'Completed' ? 'green' : 'red' }}>{item.status}</Text>
+                    </View>
+                </View>
+            </TouchableOpacity>
+        </>
+    );
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView>
-                <View style={styles.content}>
-                    <Image
-                        source={require('../../assets/outlet.png')}
-                        style={{ width: 100, height: 100, marginRight: 10 }}
-                    />
-
-                    <View style={styles.textContent}>
-                        <Text style={styles.user}>{data.outlets[0].name}</Text>
-                        <Text>Alamat : {data.outlets[0].address.street}</Text>
-                    </View>
-                </View>
-                <Text style={{ fontWeight: 'bold', borderTopWidth: 1, paddingTop: 5, paddingBottom: 5, marginTop: 10 }}>History Of Orders :</Text>
-            </ScrollView>
+            <FlatList
+                data={outlet}
+                renderItem={content}
+                keyExtractor={item => item.outletId}
+            />
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
+        marginTop: -20,
         flexDirection: 'row',
+        flex: 1,
         padding: 20,
-        borderTopWidth: 1,
-        borderColor: "#D4D4D4",
     },
-    content: {
-        height: "auto",
-        flexDirection: 'row',
-        marginTop : -5
+    cardOrder: {
+        backgroundColor: 'white',
+        borderRadius: 15,
+        marginTop: 5,
+        marginBottom: 10,
+        padding: 10,
+        width: 'auto',
+        height: 80,
+        flexDirection: 'row', // Baris untuk memisahkan saldo dan tombol klaim
+        borderColor: "gray",
+        borderWidth: 1,
     },
-    positionUserImage: {
-        flex: 1,
-    },
-    textContent: {
-        flex: 2,
-    },
-    nameText: {
+    orderText: {
         fontSize: 14,
-        color: 'black',
+        marginLeft: 20,
     },
-    textContent: {
-        flex: 2,
-    },
-    user: {
-        fontWeight: "bold",
-        fontSize: 20,
-        marginTop: 10
-    },
-    contentImage: {
-        flex: 1,
-        height: 200,
-        borderRadius: 8,
-        marginTop: 5
-    }
 });
