@@ -5,6 +5,7 @@ import CardOrder from "../src/components/cardOrder";
 
 
 export default function HomeScreen() {
+
     return <>
         <View style={styles.container}>
             <CardContent/>
@@ -18,6 +19,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#ffffff', 
+        // backgroundColor: '#ffffff', 
     },
 });

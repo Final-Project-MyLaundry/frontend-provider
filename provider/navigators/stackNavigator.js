@@ -6,6 +6,7 @@ import TabNavigator from "./tabNavigator";
 import { useContext } from 'react';
 import { LoginContext } from '../context/loginContext';
 import AddOutletScreen from '../screens/addOutletScreen';
+import DetailOutletScreen from '../screens/detailOutletScreen';
 // import DetailContentScreen from '../screens/detailContentScreen';
 
 export default function StackNavigator() {
@@ -22,6 +23,7 @@ export default function StackNavigator() {
                 <>
                     <Stack.Screen name="Home" component={TabNavigator} />
                     <Stack.Screen name='AddOutlet' component={AddOutletScreen} options={{ headerShown: true }}/>
+                    <Stack.Screen name='DetailOutlet' component={DetailOutletScreen} options={{ headerShown: true }}/>
                 </>
             ) : (
                 <>

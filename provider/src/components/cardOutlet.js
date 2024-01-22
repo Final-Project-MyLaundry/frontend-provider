@@ -2,9 +2,9 @@ import { FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View
 import { useNavigation } from "@react-navigation/native";
 
 export default function CardOutlet({ outlet }) {
-
+    const navigation = useNavigation()
     const renderContent = ({ item, index }) => (
-        <TouchableOpacity key={index}>
+        <TouchableOpacity key={index} onPress={() => navigation.navigate('DetailOutlet', { id: item._id })}>
             <View style={styles.cardOrder} key={index} >
                 <Image
                     source={require('../../assets/outlet.png')}
