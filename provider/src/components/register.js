@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
-import { Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { useContext, useState } from 'react';
+import { Image, SafeAreaView, StyleSheet, Text, TextInput,ToastAndroid, TouchableOpacity, View } from 'react-native';
+import { LoginContext } from "../../context/loginContext";
 
 
 export default function Register() {
@@ -10,8 +11,31 @@ export default function Register() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
-    const handleOnClick = () => {
-        navigation.navigate('Login')
+    const { URL } = useContext(LoginContext)
+
+    const handleOnClick = async () => {
+        const response = await fetch(URL + '/users/register', {
+            method: "POST",
+            cache: "no-store",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name,
+                email,
+                password
+            })
+        })
+
+        const result = await response.json()
+
+        if (response.ok) {
+            ToastAndroid.showWithGravity('Register success, Please Login to My Laundry!', ToastAndroid.LONG, ToastAndroid.TOP)
+            navigation.navigate('Login')
+        }else {
+            ToastAndroid.showWithGravity(result.message, ToastAndroid.LONG, ToastAndroid.TOP)
+        }
+
     }
 
     return (
