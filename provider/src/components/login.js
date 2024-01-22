@@ -1,32 +1,41 @@
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react"
+import { useState, useContext } from "react"
+import { LoginContext } from "../../context/loginContext";
+import * as SecureStore from "expo-secure-store";
 import { Image, SafeAreaView, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
 
+async function save(key, value) {
+    await SecureStore.setItemAsync(key, value);
+}
 export default function Login() {
     const navigation = useNavigation()
 
     const [email, setEmail] = useState("")
-    const [ password, setPassword] = useState("")    
+    const [password, setPassword] = useState("")
+
+    const { setIsLogin, URL } = useContext(LoginContext)
+
     const handleOnClick = async () => {
-        const response = await fetch('https://9a66-139-228-111-126.ngrok-free.app/users/login', {
-            method: 'POST',
+        const response = await fetch(URL + '/users/login', {
+            method: "POST",
+            cache: "no-store",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 email,
                 password
             })
         })
-        const x = await response.json();
-        // console.log(x);
+        const result = await response.json()
 
-        if (!response.ok) {
-            ToastAndroid.showWithGravity(x.message, ToastAndroid.LONG, ToastAndroid.TOP)
+        if (response.ok) {
+            await save("access_token", result.access_token)
+            setIsLogin(result.access_token)
+            ToastAndroid.showWithGravity('Success Login, Welcome to My Laundry!', ToastAndroid.LONG, ToastAndroid.TOP)
+        } else {
+            ToastAndroid.showWithGravity(result.message, ToastAndroid.LONG, ToastAndroid.TOP)
         }
-
-        ToastAndroid.showWithGravity('Success Login, Welcome to My Laundry!', ToastAndroid.LONG, ToastAndroid.TOP)
-        navigation.navigate('Home')
 
     }
     return <>
@@ -41,7 +50,7 @@ export default function Login() {
                 style={styles.input}
                 onChangeText={setEmail}
                 placeholder="Email"
-                // value={username}
+            // value={username}
             />
 
             <TextInput
