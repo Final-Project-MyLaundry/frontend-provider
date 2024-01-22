@@ -2,7 +2,6 @@ import { FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View
 import { useNavigation } from "@react-navigation/native";
 
 export default function CardOutlet({ outlet }) {
-    const navigation = useNavigation();
 
     const renderContent = ({ item, index }) => (
         <TouchableOpacity key={index}>

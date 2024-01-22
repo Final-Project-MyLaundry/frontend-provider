@@ -1,5 +1,4 @@
 import { FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
 export default function CardTransaction({transactions }) {
     const content = ({ item, index }) => (
@@ -13,7 +12,7 @@ export default function CardTransaction({transactions }) {
                         <View style={styles.orderText}>
                             <Text style={{ fontWeight: 'bold', fontSize: 14 }}>No : {item.orderId}</Text>
                             <Text>Amount : Rp. {item.amount}</Text>
-                            <Text>Description : {item.description}</Text>
+                            <Text>Description :<Text style={{ color:  item.description == 'IN' ? 'green' : 'red', fontWeight: 'bold' }}> {item.description}</Text></Text>
                         </View>
                     </View>
                 </TouchableOpacity>
