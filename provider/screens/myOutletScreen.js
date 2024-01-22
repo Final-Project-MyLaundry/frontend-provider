@@ -24,14 +24,17 @@ export default function MyOutletScreen() {
         setOutlet(data)
     }
 
-    console.log(outlet);
+    // console.log(outlet);
     useEffect(() => {
         fetchOutlet()
     }, [])
     return (
         <View style={styles.container}>
             <Text style={{ fontWeight: 'bold', fontSize: 20, marginTop: 10 }}>My Outlet</Text>
-            <CardOutlet />
+
+                <CardOutlet outlet={outlet}/>
+
+
             <TouchableOpacity
                 style={styles.buttonAdddPost}
             // onPress={handleToCreatePost}
@@ -48,6 +51,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#ffffff',
+        borderTopWidth: 1,
+        borderColor: "#D4D4D4",
     },
     buttonAdddPost: {
         position: "absolute",
