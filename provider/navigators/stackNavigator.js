@@ -20,7 +20,6 @@ export default function StackNavigator() {
             {isLogin ? (
                 <>
                     <Stack.Screen name="Home" component={TabNavigator} />
-                    {/* <Stack.Screen name="Postingan" component={DetailContentScreen} options={{ headerShown: true }}/> */}
                 </>
             ) : (
                 <>
