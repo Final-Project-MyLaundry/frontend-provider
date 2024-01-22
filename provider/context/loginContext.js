@@ -19,7 +19,7 @@ export function AuthComponent({ children }) {
     }, [])
 
     return (
-        <LoginContext.Provider value={{ isLogin, setIsLogin, URL: 'https://8dc3-182-253-59-95.ngrok-free.app' }}>
+        <LoginContext.Provider value={{ isLogin, setIsLogin, URL: 'https://c0cd-182-253-59-95.ngrok-free.app' }}>
             {children}
         </LoginContext.Provider>
     )

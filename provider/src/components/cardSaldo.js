@@ -39,7 +39,6 @@ export default function CardContent() {
                             style={{ width: 80, height: 70 }}
                         />
                     </View>
-
                 </View>
                 <View style={styles.card}>
                     <View style={styles.saldoContainer}>
