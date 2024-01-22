@@ -5,7 +5,15 @@ import ProfileScreen from '../screens/profileScreen';
 import { Image } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MyOutletScreen from '../screens/myOutletScreen';
+import LogoutButton from '../src/components/logoutButton';
 const Tab = createBottomTabNavigator();
+
+const headerTitle = () => (
+    <Image
+        source={require('../assets/mylaundry.png')} 
+        style={{ width: 120, height: 30, marginTop: 15 }} 
+    />
+)
 
 export default function TabNavigator() {
     return (
@@ -38,35 +46,21 @@ export default function TabNavigator() {
                 name="HomeScreen"
                 component={HomeScreen}
                 options={{
-                    headerTitle: () => (
-                        <Image
-                            source={require('../assets/mylaundry.png')}
-                            style={{ width: 120, height: 30, marginTop: 15 }}
-                        />
-                    ),
+                    headerTitle: headerTitle
                 }} />
               <Tab.Screen
                 name="Outlet"
                 component={MyOutletScreen}
                 options={{
-                    headerTitle: () => (
-                        <Image
-                            source={require('../assets/mylaundry.png')} 
-                            style={{ width: 120, height: 30, marginTop: 15 }} 
-                        />
-                    ),
-                }}
+                    headerTitle : headerTitle
+                  }}
             />
             <Tab.Screen
                 name="Profile"
                 component={ProfileScreen}
                 options={{
-                    headerTitle: () => (
-                        <Image
-                            source={require('../assets/mylaundry.png')}
-                            style={{ width: 120, height: 30, marginTop: 15 }}
-                        />
-                    ),
+                    headerTitle: headerTitle,
+                    headerRight: () => (<LogoutButton/>),
                 }}
             />
         </Tab.Navigator>
