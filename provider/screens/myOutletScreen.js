@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import CardOrder from "../src/components/cardOrder";
 import CardOutlet from "../src/components/cardOutlet";
 
@@ -6,8 +6,9 @@ import CardOutlet from "../src/components/cardOutlet";
 export default function MyOutletScreen() {
     return (
         <View style={styles.container}>
+            <Text style={{ fontWeight: 'bold', fontSize: 20, marginTop: 10}}>My Outlet</Text>
             <CardOutlet />
-            <CardOrder />
+            {/* <CardOrder /> */}
         </View>
     )
 }
