@@ -3,9 +3,12 @@ import CardOutlet from "../src/components/cardOutlet";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { LoginContext } from "../context/loginContext";
 import { useContext, useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/core";
 
 
 export default function MyOutletScreen() {
+
+    const navigation = useNavigation()
 
     const { isLogin, URL } = useContext(LoginContext)
     const [outlet, setOutlet] = useState([])
@@ -27,7 +30,7 @@ export default function MyOutletScreen() {
     // console.log(outlet);
     useEffect(() => {
         fetchOutlet()
-    }, [])
+    }, [outlet])
     return (
         <View style={styles.container}>
             <Text style={{ fontWeight: 'bold', fontSize: 20, marginTop: 10 }}>My Outlet</Text>
@@ -37,7 +40,7 @@ export default function MyOutletScreen() {
 
             <TouchableOpacity
                 style={styles.buttonAdddPost}
-            // onPress={handleToCreatePost}
+            onPress={() => navigation.navigate("AddOutlet")}
             >
                 <Ionicons name="add" size={32} color="#fff" />
             </TouchableOpacity>

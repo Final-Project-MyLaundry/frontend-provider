@@ -37,7 +37,7 @@ export default function CardOrder() {
                  <View style={styles.orderText}>
                      <Text style={{ fontWeight: 'bold', fontSize: 14 }}>Pesanan No : {item._id}</Text>
                      <Text style={{ fontWeight: 'bold', fontSize: 12, color: 'gray' }}>Outlet : {item.outlet}</Text>
-                     <Text style={{ color: item.status === 'Completed' ? 'green' : 'red' }}>{item.progress}</Text>
+                     <Text style={{ color: item.status === 'Completed' ? 'green' : 'red', fontWeight: 'bold' }}>{item.progress}</Text>
                  </View>
              </View>
          </TouchableOpacity>
