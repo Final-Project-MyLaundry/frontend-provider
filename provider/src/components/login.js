@@ -32,7 +32,7 @@ export default function Login() {
         if (response.ok) {
             await save("access_token", result.access_token)
             setIsLogin(result.access_token)
-            ToastAndroid.showWithGravity('Success Login, Welcome to My Laundry!', ToastAndroid.LONG, ToastAndroid.TOP)
+            ToastAndroid.showWithGravity('Login success, Welcome to My Laundry!', ToastAndroid.LONG, ToastAndroid.TOP)
         } else {
             ToastAndroid.showWithGravity(result.message, ToastAndroid.LONG, ToastAndroid.TOP)
         }
