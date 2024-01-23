@@ -26,10 +26,11 @@ export default function DetailOutletScreen() {
     useEffect(() => {
         fetchOutlet()
     }, [])
+    // console.log(outlet, id);
     return (
         <>
             <DetailOutlet outlet={outlet} fetchOutlet={fetchOutlet} />
-            <CardServices services={outlet[0]?.services} />
+            <CardServices services={outlet[0]} fetchOutlet={fetchOutlet}/>
         </>
     )
 }

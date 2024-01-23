@@ -14,7 +14,7 @@ export default function MyOutletScreen() {
     const [outlet, setOutlet] = useState([])
 
     const fetchOutlet = async () => {
-        const response = await fetch( URL + '/outlets/provider', {
+        const response = await fetch(URL + '/outlets/provider', {
             method: "GET",
             cache: "no-store",
             headers: {
@@ -34,11 +34,11 @@ export default function MyOutletScreen() {
         <View style={styles.container}>
             <Text style={{ fontWeight: 'bold', fontSize: 20, marginTop: 10 }}>My Outlet</Text>
 
-                <CardOutlet outlet={outlet} />
+            <CardOutlet outlet={outlet} />
 
             <TouchableOpacity
                 style={styles.buttonAdddPost}
-            onPress={() => navigation.navigate("AddOutlet")}
+                onPress={() => navigation.navigate("AddOutlet")}
             >
                 <Ionicons name="add" size={32} color="#fff" />
             </TouchableOpacity>

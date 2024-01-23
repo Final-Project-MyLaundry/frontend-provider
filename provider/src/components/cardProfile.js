@@ -1,9 +1,9 @@
-import { FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useContext, useEffect, useState } from "react";
-import { LoginContext } from "../../context/loginContext";
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useNavigation } from "@react-navigation/core";
 
 
 export default function CardProfile({profile}) {
+    const navigation = useNavigation()
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
@@ -17,7 +17,7 @@ export default function CardProfile({profile}) {
                     <View style={styles.textContent}>
                         <Text style={styles.welcome}>{profile.name} </Text>
                         <Text>{profile.phone}</Text>
-                        <TouchableOpacity >
+                        <TouchableOpacity onPress={() => navigation.navigate("UpdateProfile")}>
                             <Text style={{color : '#0C94D2'}}>Update</Text>
                         </TouchableOpacity>
                     </View>
