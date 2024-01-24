@@ -1,15 +1,43 @@
 import { StyleSheet, View } from "react-native";
 import CardContent from "../src/components/cardSaldo";
 import CardOrder from "../src/components/cardOrder";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { LoginContext } from "../context/loginContext";
+import { useFocusEffect } from '@react-navigation/native';
 
 
 
 export default function HomeScreen() {
+    const {isLogin, URL} = useContext(LoginContext)
+    const [order, setOrder] = useState([])
+
+    const fetchOrder = async () => {
+        const response = await fetch( URL + '/orders/provider/waiting', {
+            method: "GET",
+            cache: "no-store",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + isLogin
+            }
+        })
+        const result = await response.json()
+        console.log(result);
+        setOrder(result)
+    }
+
+    
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchOrder()
+            console.log("masuk");
+        }, [])
+      );
 
     return <>
         <View style={styles.container}>
             <CardContent/>
-            <CardOrder/>
+            <CardOrder order={order}/>
         </View>
     </>
 }

@@ -4,8 +4,10 @@ import HomeScreen from '../screens/homeScreen';
 import ProfileScreen from '../screens/profileScreen';
 import { Image } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+// import Ionicons from 'react-native-vector-icons/FontAwesome5';
 import MyOutletScreen from '../screens/myOutletScreen';
 import LogoutButton from '../src/components/logoutButton';
+import AllOrdersScreen from '../screens/allOrdserScreen';
 const Tab = createBottomTabNavigator();
 
 const headerTitle = () => (
@@ -24,10 +26,12 @@ export default function TabNavigator() {
 
                     if (route.name === 'HomeScreen') {
                         iconName = 'home';
-                    } else if (route.name === 'Profile') {
-                        iconName = 'person';
-                    } else if (route.name === 'Outlet') {
+                    } else if(route.name === 'Orders'){
+                        iconName = 'list'
+                    }else if (route.name === 'Outlet') {
                         iconName = 'storefront-outline'
+                    }else if (route.name === 'Profile') {
+                        iconName = 'person';
                     }
 
                     return <Ionicons name={iconName} size={size} color={focused ? '#0C94D2' : color} />;
@@ -48,7 +52,7 @@ export default function TabNavigator() {
                 options={{
                     headerTitle: headerTitle
                 }} />
-              <Tab.Screen
+            <Tab.Screen
                 name="Outlet"
                 component={MyOutletScreen}
                 options={{
@@ -56,6 +60,13 @@ export default function TabNavigator() {
                   }}
             />
             <Tab.Screen
+                name="Orders"
+                component={AllOrdersScreen}
+                options={{
+                    headerTitle: headerTitle
+                }}
+            />
+                <Tab.Screen
                 name="Profile"
                 component={ProfileScreen}
                 options={{

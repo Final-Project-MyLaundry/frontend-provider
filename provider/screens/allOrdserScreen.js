@@ -1,20 +1,20 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import CardOutlet from "../src/components/cardOutlet";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { LoginContext } from "../context/loginContext";
 import { useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/core";
+import CardOrder from "../src/components/cardOrder";
 
 
-export default function MyOutletScreen() {
+export default function AllOrdersScreen() {
 
     const navigation = useNavigation()
 
-    const { isLogin, URL } = useContext(LoginContext)
-    const [outlet, setOutlet] = useState([])
+    const {isLogin, URL} = useContext(LoginContext)
+    const [order, setOrder] = useState([])
 
-    const fetchOutlet = async () => {
-        const response = await fetch(URL + '/outlets/provider', {
+    const fetchOrder = async () => {
+        const response = await fetch( URL + '/orders/provider/outlet', {
             method: "GET",
             cache: "no-store",
             headers: {
@@ -22,26 +22,18 @@ export default function MyOutletScreen() {
                 "Authorization": "Bearer " + isLogin
             }
         })
-
-        const data = await response.json();
-        setOutlet(data)
+        const result = await response.json()
+        setOrder(result)
     }
 
     useEffect(() => {
-        fetchOutlet()
-    }, [outlet])
+        fetchOrder()
+    }, [])
     return (
         <View style={styles.container}>
-            <Text style={{ fontWeight: 'bold', fontSize: 20, marginTop: 10 }}>My Outlet</Text>
+            <Text style={{ fontWeight: 'bold', fontSize: 20, marginTop: 10 }}>All Orders</Text>
 
-            <CardOutlet outlet={outlet} />
-
-            <TouchableOpacity
-                style={styles.buttonAdddPost}
-                onPress={() => navigation.navigate("AddOutlet")}
-            >
-                <Ionicons name="add" size={32} color="#fff" />
-            </TouchableOpacity>
+            <CardOrder order={order} />
         </View>
     )
 }

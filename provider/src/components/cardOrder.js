@@ -1,31 +1,8 @@
 import { FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useContext, useEffect, useState } from "react";
-import { LoginContext } from "../../context/loginContext";
 
-export default function CardOrder() {
-
-    const {isLogin, URL} = useContext(LoginContext)
-    const [order, setOrder] = useState([])
-
+export default function CardOrder({order}) {
     const navigation = useNavigation()
-    const fetchOrder = async () => {
-        const response = await fetch( URL + '/orders/provider/waiting', {
-            method: "GET",
-            cache: "no-store",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + isLogin
-            }
-        })
-        const result = await response.json()
-        setOrder(result)
-    }
-
-    useEffect(() => {
-        fetchOrder()
-    }, [])
-
     const content = ({ item, index }) => (
         <>
              <TouchableOpacity onPress={() => navigation.navigate('DetailOrder', {id: item._id})}>
@@ -37,7 +14,7 @@ export default function CardOrder() {
                  <View style={styles.orderText}>
                      <Text style={{ fontWeight: 'bold', fontSize: 14 }}>Pesanan No : {item._id}</Text>
                      <Text style={{ fontWeight: 'bold', fontSize: 12, color: 'gray' }}>Outlet : {item.outlet}</Text>
-                     <Text style={{ color: item.status === 'Completed' ? 'green' : 'red', fontWeight: 'bold' }}>{item.progress}</Text>
+                     <Text style={{ color: item.progress === 'ACCEPTED' ? 'green' : 'red', fontWeight: 'bold' }}>{item.progress}</Text>
                  </View>
              </View>
          </TouchableOpacity>
@@ -46,7 +23,7 @@ export default function CardOrder() {
 
     return (
         <SafeAreaView style={styles.container}>
-        {order.length == 0 ? (
+        {order?.length == 0 ? (
             <Text style={{fontSize: 20, fontWeight: 'bold'}}>No order yet</Text>
         ):(
             <FlatList
@@ -57,8 +34,6 @@ export default function CardOrder() {
         )}
         </SafeAreaView>
     );
-
-
 }
 
 const styles = StyleSheet.create({
@@ -76,7 +51,7 @@ const styles = StyleSheet.create({
         padding: 10,
         width: 'auto',
         height: 80,
-        flexDirection: 'row', // Baris untuk memisahkan saldo dan tombol klaim
+        flexDirection: 'row',
         borderColor: "gray",
         borderWidth: 1,
     },
