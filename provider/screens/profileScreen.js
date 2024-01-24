@@ -23,7 +23,6 @@ export default function ProfileScreen() {
     useEffect(() => {
         fetchData()
     }, [])
-// console.log(data);
     return (
         <View style={styles.container}>
         
@@ -38,6 +37,5 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        // backgroundColor: '#ffffff', 
     },
 });

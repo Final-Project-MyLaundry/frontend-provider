@@ -1,7 +1,7 @@
-import { FlatList, Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, SafeAreaView, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from "react-native";
 import CardReview from "./cardReview";
-import { useNavigation, useRoute } from "@react-navigation/core";
-import React, { useContext, useState } from "react";
+import { useRoute } from "@react-navigation/core";
+import React, { useContext, useEffect, useState } from "react";
 import Modal from "react-native-modal";
 import { SelectList } from 'react-native-dropdown-select-list'
 import { LoginContext } from "../../context/loginContext";
@@ -9,25 +9,38 @@ import { LoginContext } from "../../context/loginContext";
 export default function CardServices({ services, fetchOutlet }) {
     // console.log(services);
     const route = useRoute()
-    const {id} = route.params
+    const { id } = route.params
     // console.log(route.params);
 
 
-    const {URL, isLogin} = useContext(LoginContext)
+    const { URL, isLogin } = useContext(LoginContext)
     const [isModalVisible, setModalVisible] = useState(false);
     const [price, setPrice] = useState("");
     const [description, setDescription] = useState("");
 
     const [selected, setSelected] = React.useState("");
+    const [data, setData] = useState([]);
 
-    const data = [
-        { key: '1', value: 'EXPRESS' },
-        { key: '2', value: 'SETRIKA' },
-        { key: '3', value: 'CUCI SETRIKA' },
-        { key: '4', value: 'CUCI' },
-        { key: '5', value: 'CUCI SEPATU' }
-    ]
-    const toggleModal = async () => {
+
+    const fetchService = async () => {
+        const response = await fetch(URL + '/services', {
+            method: "GET",
+            cache: "no-store",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + isLogin
+            }
+        })
+        const data = await response.json();
+        const newData = data.map((item) => ({ key: item.id, value: item.name }));
+        setData(newData)
+    }
+
+    useEffect(() => {
+        fetchService()
+    })
+
+    const handleSubmit = async () => {
         const response = await fetch(URL + '/services', {
             method: "POST",
             cache: "no-store",
@@ -35,12 +48,16 @@ export default function CardServices({ services, fetchOutlet }) {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + isLogin
             },
-            body: JSON.stringify({ name: selected, price, description, outletId : id })
+            body: JSON.stringify({ name: selected, price, description, outletId: id })
         })
 
         if (response.ok) {
+            ToastAndroid.showWithGravity('Add service success!', ToastAndroid.LONG, ToastAndroid.TOP)
             setModalVisible(!isModalVisible);
             fetchOutlet()
+            setSelected("")
+            setPrice("")
+            setDescription("")
         }
     };
 
@@ -48,7 +65,6 @@ export default function CardServices({ services, fetchOutlet }) {
         setModalVisible(!isModalVisible);
     }
 
-    const navigation = useNavigation()
     const content = ({ item, index }) => (
         <>
             <TouchableOpacity key={index}>
@@ -97,50 +113,68 @@ export default function CardServices({ services, fetchOutlet }) {
                 <Text style={{ color: 'white', fontWeight: 'bold' }}>Add More Service</Text>
             </TouchableOpacity>
 
-            <Modal isVisible={isModalVisible} style={styles.modalView}
-            >
+            <Modal isVisible={isModalVisible}>
                 <View style={styles.centeredView}>
-                    <SelectList styles={{ width: 300 }}
-                        setSelected={(val) => setSelected(val)}
-                        data={data}
-                        save="value"
-                    />
-                    <View style={styles.inputContainer}>
-                        {/* <Text style={styles.label}>Price :</Text> */}
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={setPrice}
-                            placeholder="Enter Price"
-                            value={price}
+                    <View style={styles.cardModal} >
+                    <Text style={{ fontWeight: 'bold', fontSize: 20, borderBottomWidth: 1, borderBottomColor: 'gray', marginBottom: 10 }}>Add New Service : </Text>
+                        <SelectList
+                            setSelected={setSelected}
+                            data={data}
+                            save="value"
+                            label="Categories"
                         />
+                        <View style={styles.inputContainer}>
+                            <TextInput
+                                style={styles.input}
+                                onChangeText={setPrice}
+                                placeholder="Enter Price"
+                                value={price}
+                                keyboardType="phone-pad"
+                            />
+                        </View>
+                        <View style={styles.inputContainer}>
+                            <TextInput
+                                style={styles.input}
+                                onChangeText={setDescription}
+                                placeholder="Enter Description"
+                                value={description}
+                            />
+                        </View>
                     </View>
-                    <View style={styles.inputContainer}>
-                        {/* <Text style={styles.label}>Description :</Text> */}
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={setDescription}
-                            placeholder="Enter Description"
-                            value={description}
-                        />
+                    <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
+                        <TouchableOpacity onPress={handleSubmit} style={{
+                            backgroundColor: '#0C94D2',
+                            borderRadius: 8,
+                            paddingVertical: 8,
+                            paddingHorizontal: 12,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            marginTop: 5,
+                            marginRight: 5,
+                            marginBottom: -10,
+                            width: 100
+                        }}><Text style={{ color: 'white', fontWeight: 'bold' }}>
+                                Submit
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={openModal} style={{
+                            backgroundColor: '#E3651D',
+                            borderRadius: 8,
+                            paddingVertical: 8,
+                            paddingHorizontal: 12,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            marginTop: 5,
+                            marginRight: 5,
+                            marginBottom: -10,
+                            width: 100
+                        }}><Text style={{ color: 'white', fontWeight: 'bold' }}>
+                                Close
+                            </Text>
+                        </TouchableOpacity>
                     </View>
-
-                    <TouchableOpacity onPress={toggleModal} style={{
-                         backgroundColor: '#0C94D2',
-                         borderRadius: 8,
-                         paddingVertical: 8,
-                         paddingHorizontal: 12,
-                         justifyContent: 'center',
-                         alignItems: 'center',
-                         marginTop: -10,
-                         marginRight: 5,
-                         marginBottom: -10,
-                    }}><Text  style={{ color: 'white', fontWeight: 'bold' }}>
-                        Tutup
-                    </Text>
-                    </TouchableOpacity>
                 </View>
             </Modal>
-
             <Text style={{ fontWeight: 'bold', borderBottomWidth: 1, paddingBottom: 5 }}>Review :</Text>
             <CardReview reviews={services?.reviews} />
         </SafeAreaView>
@@ -191,22 +225,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 22,
     },
-    modalView: {
-        margin: 20,
-        height: 200,
-        backgroundColor: 'white',
-        borderRadius: 20,
-        padding: 35,
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5
-    },
     button: {
         borderRadius: 20,
         padding: 10,
@@ -238,12 +256,25 @@ const styles = StyleSheet.create({
 
     input: {
         height: 40,
-        width: 300,
-        margin: 12,
+        width: 330,
+        marginTop: 12,
         borderWidth: 1,
         borderRadius: 5,
         padding: 10,
         color: 'black',
         backgroundColor: 'white',
+    },
+
+    cardModal: {
+        backgroundColor: 'white',
+        borderRadius: 15,
+        marginTop: 5,
+        marginBottom: 10,
+        padding: 10,
+        width: 'auto',
+        height: "auto",
+        flexDirection: 'column',
+        borderColor: "gray",
+        borderWidth: 1,
     },
 });

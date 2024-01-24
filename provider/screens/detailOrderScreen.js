@@ -3,16 +3,17 @@ import { LoginContext } from "../context/loginContext";
 import DetailOutlet from "../src/components/detailOutlet";
 import { useRoute } from "@react-navigation/core";
 import CardServices from "../src/components/cardServices";
+import { Text } from "react-native";
+import DetailOrder from "../src/components/detailOrder";
 
-export default function DetailOutletScreen() {
-    // console.log(id);
+export default function DetailOrderScreen() {
     const route = useRoute()
     const { id } = route.params
     const { isLogin, URL } = useContext(LoginContext)
-    const [outlet, setOutlet] = useState([])
+    const [order, setOrder] = useState([])
 
     const fetchOutlet = async () => {
-        const response = await fetch(URL + '/outlets/provider/' + id, {
+        const response = await fetch(URL + '/orders/' + id, {
             method: "GET",
             cache: "no-store",
             headers: {
@@ -21,15 +22,14 @@ export default function DetailOutletScreen() {
             }
         })
         const data = await response.json();
-        setOutlet(data)
+        setOrder(data)
     }
     useEffect(() => {
         fetchOutlet()
     }, [])
     return (
         <>
-            <DetailOutlet outlet={outlet} fetchOutlet={fetchOutlet} />
-            <CardServices services={outlet[0]} fetchOutlet={fetchOutlet}/>
+            <DetailOrder order={order} fetchOutlet={fetchOutlet}/>
         </>
     )
 }
