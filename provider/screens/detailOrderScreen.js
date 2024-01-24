@@ -1,9 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../context/loginContext";
-import DetailOutlet from "../src/components/detailOutlet";
 import { useRoute } from "@react-navigation/core";
-import CardServices from "../src/components/cardServices";
-import { Text } from "react-native";
 import DetailOrder from "../src/components/detailOrder";
 
 export default function DetailOrderScreen() {
@@ -22,11 +19,13 @@ export default function DetailOrderScreen() {
             }
         })
         const data = await response.json();
+        console.log(data, "ini dataaaaaaaa");
         setOrder(data)
     }
     useEffect(() => {
         fetchOutlet()
     }, [])
+    
     return (
         <>
             <DetailOrder order={order} fetchOutlet={fetchOutlet}/>

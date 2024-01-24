@@ -1,9 +1,10 @@
 import { Image, ToastAndroid, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { useNavigation } from "@react-navigation/core";
 import { SelectList } from "react-native-dropdown-select-list";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Modal from "react-native-modal";
 import { LoginContext } from "../../context/loginContext";
+import { useNavigation } from '@react-navigation/native';
+
 
 
 
@@ -19,10 +20,8 @@ export default function DetailOrder({ order, fetchOutlet }) {
         { key: '5', value: 'DELIVERED' },
     ];
 
-
-
+    const navigation = useNavigation()
     const { URL, isLogin } = useContext(LoginContext)
-    // console.log(qty, selected);
     const handleSubmit = async () => {
         const responseQty = await fetch(URL + '/orders/provider/' + order._id, {
             method: "PATCH",
@@ -47,7 +46,7 @@ export default function DetailOrder({ order, fetchOutlet }) {
             ToastAndroid.showWithGravity('Update status success!', ToastAndroid.LONG, ToastAndroid.TOP)
             setModalVisible(!isModalVisible);
             setQty({})
-            // fetchOutlet()
+            navigation.navigate("Orders")
         }
     }
 
@@ -78,7 +77,7 @@ export default function DetailOrder({ order, fetchOutlet }) {
                         />
                     </View>
                 </View>
-                <Text style={{ fontWeight: 'bold', fontSize: 14 }}>Notes : <Text style={{fontWeight: 'normal', }}>
+                <Text style={{ fontWeight: 'bold', fontSize: 14 }}>Notes : <Text style={{ fontWeight: 'normal', }}>
                     {order.notes}
                 </Text>
                 </Text>
