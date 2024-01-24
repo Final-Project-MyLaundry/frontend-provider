@@ -47,20 +47,6 @@ export default function DetailOutlet({ outlet, fetchOutlet }) {
                         <View style={{ flexDirection: 'row' }}>
                             {outlet[0]?.statusOpen ? (
                                 <TouchableOpacity style={{
-                                    backgroundColor: 'green',
-                                    borderRadius: 8,
-                                    paddingVertical: 8,
-                                    paddingHorizontal: 12,
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    marginTop: 10,
-                                    marginRight: 5,
-                                    width: 100
-                                }} onPress={handleClick}>
-                                    <Text style={{ color: 'white', fontWeight: 'bold' }}>Buka</Text>
-                                </TouchableOpacity>
-                            ) : (
-                                <TouchableOpacity style={{
                                     backgroundColor: '#E3651D',
                                     borderRadius: 8,
                                     paddingVertical: 8,
@@ -73,6 +59,21 @@ export default function DetailOutlet({ outlet, fetchOutlet }) {
                                 }} onPress={handleClick}>
                                     <Text style={{ color: 'white', fontWeight: 'bold' }}>Tutup</Text>
                                 </TouchableOpacity>
+                            ) : (
+                                <TouchableOpacity style={{
+                                    backgroundColor: 'green',
+                                    borderRadius: 8,
+                                    paddingVertical: 8,
+                                    paddingHorizontal: 12,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    marginTop: 10,
+                                    marginRight: 5,
+                                    width: 100
+                                }} onPress={handleClick}>
+                                    <Text style={{ color: 'white', fontWeight: 'bold' }}>Buka</Text>
+                                </TouchableOpacity>
+
                             )}
                             <TouchableOpacity style={{
                                 backgroundColor: '#0C94D2',
@@ -84,7 +85,7 @@ export default function DetailOutlet({ outlet, fetchOutlet }) {
                                 marginTop: 10,
                                 marginRight: 5,
                                 width: 100
-                            }} onPress={"handleClick"}>
+                            }} onPress={() => navigation.navigate('UpdateOutlet', { id: outlet[0]?._id })}>
                                 <Text style={{ color: 'white', fontWeight: 'bold' }}>Update</Text>
                             </TouchableOpacity>
                         </View>

@@ -17,8 +17,8 @@ export default function CardProfile({profile}) {
                     <View style={styles.textContent}>
                         <Text style={styles.welcome}>{profile.name} </Text>
                         <Text>{profile.phone}</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate("UpdateProfile")}>
-                            <Text style={{color : '#0C94D2'}}>Update</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate("UpdateProfile")} style={styles.button}>
+                            <Text style={{ color: 'white', fontWeight: 'bold' }}>Update</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -107,5 +107,15 @@ const styles = StyleSheet.create({
     nameText: {
         fontSize: 14,
         color: 'white',
+    },
+    button: {
+        backgroundColor: '#0C94D2',
+        marginLeft: -1,
+        borderRadius: 10,
+        width: 100,
+        height: 35,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 10
     }
 });

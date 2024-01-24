@@ -8,6 +8,7 @@ export default function CardOrder() {
     const {isLogin, URL} = useContext(LoginContext)
     const [order, setOrder] = useState([])
 
+    const navigation = useNavigation()
     const fetchOrder = async () => {
         const response = await fetch( URL + '/orders/provider/waiting', {
             method: "GET",
@@ -18,7 +19,6 @@ export default function CardOrder() {
             }
         })
         const result = await response.json()
-        // console.log(result, "ini result");
         setOrder(result)
     }
 
@@ -28,7 +28,7 @@ export default function CardOrder() {
 
     const content = ({ item, index }) => (
         <>
-             <TouchableOpacity key={index}>
+             <TouchableOpacity onPress={() => navigation.navigate('DetailOrder', {id: item._id})}>
              <View style={styles.cardOrder} key={index} >
                  <Image
                      source={require('../../assets/order.png')}
