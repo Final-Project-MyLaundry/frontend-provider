@@ -12,7 +12,7 @@ export default function HomeScreen() {
     const [order, setOrder] = useState([])
 
     const fetchOrder = async () => {
-        const response = await fetch( URL + '/orders/provider/waiting', {
+        const response = await fetch( URL + '/orders/provider/Waiting', {
             method: "GET",
             cache: "no-store",
             headers: {
@@ -21,16 +21,12 @@ export default function HomeScreen() {
             }
         })
         const result = await response.json()
-        console.log(result);
         setOrder(result)
-    }
-
-    
+    }  
 
     useFocusEffect(
         useCallback(() => {
             fetchOrder()
-            console.log("masuk");
         }, [])
       );
 

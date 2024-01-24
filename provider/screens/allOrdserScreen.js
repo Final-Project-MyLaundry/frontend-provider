@@ -1,14 +1,13 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { StyleSheet, Text, View } from "react-native";
 import { LoginContext } from "../context/loginContext";
-import { useContext, useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/core";
+import { useCallback, useContext, useEffect, useState } from "react";
 import CardOrder from "../src/components/cardOrder";
+import { useFocusEffect } from '@react-navigation/native';
+
 
 
 export default function AllOrdersScreen() {
 
-    const navigation = useNavigation()
 
     const {isLogin, URL} = useContext(LoginContext)
     const [order, setOrder] = useState([])
@@ -26,13 +25,16 @@ export default function AllOrdersScreen() {
         setOrder(result)
     }
 
-    useEffect(() => {
-        fetchOrder()
-    }, [])
+    useFocusEffect(
+        useCallback(() => {
+            fetchOrder()
+        }, [])
+      );
+
+
     return (
         <View style={styles.container}>
             <Text style={{ fontWeight: 'bold', fontSize: 20, marginTop: 10 }}>All Orders</Text>
-
             <CardOrder order={order} />
         </View>
     )

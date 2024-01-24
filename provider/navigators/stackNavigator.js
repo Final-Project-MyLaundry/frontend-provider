@@ -8,8 +8,8 @@ import { LoginContext } from '../context/loginContext';
 import AddOutletScreen from '../screens/addOutletScreen';
 import DetailOutletScreen from '../screens/detailOutletScreen';
 import UpdateProfileScreen from '../screens/updateProfile';
-import UpdateOutletScreen from '../screens/updateoutlet';
 import DetailOrderScreen from '../screens/detailOrderScreen';
+import UpdateOutletScreen from '../screens/updateOutletScreen';
 
 export default function StackNavigator() {
     const { isLogin } = useContext(LoginContext)

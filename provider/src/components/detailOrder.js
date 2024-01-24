@@ -1,27 +1,37 @@
 import { Image, ToastAndroid, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import Modal from "react-native-modal";
 import { LoginContext } from "../../context/loginContext";
 import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 
 
-
-
-export default function DetailOrder({ order, fetchOutlet }) {
-    const [isModalVisible, setModalVisible] = useState(true);
-    const [selected, setSelected] = React.useState("");
+export default function DetailOrder({ order , fetchOutlet}) {
+    // const [isModalVisible, setModalVisible] = useState(true);
+    const [selected, setSelected] = useState("");
     const [qty, setQty] = useState({});
     const Status = [
-        { key: '1', value: 'ACCEPTED' },
-        { key: '2', value: 'PICK-UP' },
-        { key: '3', value: 'ON-PROGRESS' },
-        { key: '4', value: 'COMPLETED' },
-        { key: '5', value: 'DELIVERED' },
+        { key: '1', value: 'Accepted' },
+        { key: '2', value: 'Pick-Up' },
+        { key: '3', value: 'On-Progress' },
+        { key: '4', value: 'Delivered' },
+        { key: '5', value: 'Completed' },
     ];
 
     const navigation = useNavigation()
     const { URL, isLogin } = useContext(LoginContext)
+
+    const handleSelect = async () => {
+        const responseProgress = await fetch(URL + '/orders/progress/' + order._id, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + isLogin
+            },
+            body: JSON.stringify({ progress: selected })
+        })
+    }
     const handleSubmit = async () => {
         const responseQty = await fetch(URL + '/orders/provider/' + order._id, {
             method: "PATCH",
@@ -31,29 +41,21 @@ export default function DetailOrder({ order, fetchOutlet }) {
             },
             body: JSON.stringify({ ...qty })
         })
-        const responseProgress = await fetch(URL + '/orders/progress/' + order._id, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + isLogin
-            },
-            body: JSON.stringify({ progress: selected })
-        })
 
-
-
-        if (responseQty.ok && responseProgress.ok) {
+        if (responseQty.ok) {
             ToastAndroid.showWithGravity('Update status success!', ToastAndroid.LONG, ToastAndroid.TOP)
-            setModalVisible(!isModalVisible);
             setQty({})
-            navigation.navigate("Orders")
+            setSelected('')
+            // fetchOutlet()
         }
     }
 
-    // console.log(order);
-    const openModal = () => {
-        setModalVisible(!isModalVisible);
-    }
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchOutlet()
+        }, [selected, qty])
+      );
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
@@ -66,7 +68,7 @@ export default function DetailOrder({ order, fetchOutlet }) {
                     </View>
                     <View style={styles.textContent}>
                         <Text style={styles.welcome}>No : {order._id} </Text>
-                        <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Status : <Text style={{ color: 'red', fontWeight: 'bold' }}>{order.progress}</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Status : <Text style={{ color: order?.progress === 'Accepted' ? 'green' : 'red', fontWeight: 'bold' }}>{order.progress}</Text>
                         </Text>
 
                         <SelectList
@@ -74,6 +76,7 @@ export default function DetailOrder({ order, fetchOutlet }) {
                             data={Status}
                             save="value"
                             placeholder="Update Status"
+                            onSelect={handleSelect}
                         />
                     </View>
                 </View>
@@ -95,8 +98,21 @@ export default function DetailOrder({ order, fetchOutlet }) {
                         </View>
                     </View>
                 ))}
-                {selected == "ACCEPTED" ? (
-                    <Modal isVisible={isModalVisible}>
+                <Text>Rincian : </Text>
+                <View>
+                    {order?.result?.map((service, index) => (
+                        <View style={styles.serviceText} key={index}>
+                            <Text style={{ fontWeight: 'bold', fontSize: 12 }}>- {service?.name}</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 12, color: 'gray' }}>   Price : Rp. {service?.price} x {order.servicesId[index].qty}</Text>
+                            {/* <Text style={{ fontWeight: 'bold', fontSize: 12, color: 'gray' }}>{order.servicesId[index].qty}</Text> */}
+                        </View>
+                    ))}
+
+                </View>
+                <Text>Total Price : Rp. <Text style={{ fontWeight: 'bold' }}>{order?.totalAmount}</Text></Text>
+
+                {selected == "Accepted" ? (
+                    <Modal isVisible={selected == "Accepted"}>
                         <View style={styles.centeredView}>
                             <View style={styles.cardOrder}  >
                                 <Text style={{ fontWeight: 'bold', fontSize: 20, borderBottomWidth: 1, borderBottomColor: 'gray', marginBottom: 10 }}>List Order Services : </Text>
@@ -137,7 +153,7 @@ export default function DetailOrder({ order, fetchOutlet }) {
                                         Submit
                                     </Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={openModal} style={{
+                                <TouchableOpacity onPress={()=>setSelected('')} style={{
                                     backgroundColor: '#E3651D',
                                     borderRadius: 8,
                                     paddingVertical: 8,
@@ -285,6 +301,7 @@ const styles = StyleSheet.create({
     serviceText: {
         fontSize: 14,
         marginLeft: 20,
+        marginBottom: 10
     },
 
 });

@@ -28,7 +28,6 @@ export default function AddOutlet() {
             },
             body: JSON.stringify({ name, address, phone })
         })
-        // console.log(response);
         if (response.ok) {
             ToastAndroid.showWithGravity('Add outlet success!', ToastAndroid.LONG, ToastAndroid.TOP)
             navigation.navigate("Outlet")

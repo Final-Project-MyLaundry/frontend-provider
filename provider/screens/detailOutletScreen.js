@@ -1,8 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { LoginContext } from "../context/loginContext";
 import DetailOutlet from "../src/components/detailOutlet";
 import { useRoute } from "@react-navigation/core";
 import CardServices from "../src/components/cardServices";
+import { useFocusEffect } from '@react-navigation/native';
+
 
 export default function DetailOutletScreen() {
     // console.log(id);
@@ -23,9 +25,11 @@ export default function DetailOutletScreen() {
         const data = await response.json();
         setOutlet(data)
     }
-    useEffect(() => {
-        fetchOutlet()
-    }, [])
+    useFocusEffect(
+        useCallback(() => {
+            fetchOutlet()
+        }, [])
+      );
     return (
         <>
             <DetailOutlet outlet={outlet} fetchOutlet={fetchOutlet} />
