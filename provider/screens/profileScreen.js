@@ -1,8 +1,10 @@
 import { StyleSheet, View } from "react-native";
 import CardProfile from "../src/components/cardProfile";
 import CardTransaction from "../src/components/cardTransaction";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { LoginContext } from "../context/loginContext";
+import { useFocusEffect } from '@react-navigation/native';
+
 
 export default function ProfileScreen() {
 
@@ -20,9 +22,12 @@ export default function ProfileScreen() {
         const data = await response.json();
         setProfile(data)
     }
-    useEffect(() => {
-        fetchData()
-    }, [])
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchData()
+        }, [])
+      );
     return (
         <View style={styles.container}>
         

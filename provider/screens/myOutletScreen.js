@@ -2,8 +2,10 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import CardOutlet from "../src/components/cardOutlet";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { LoginContext } from "../context/loginContext";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/core";
+import { useFocusEffect } from '@react-navigation/native';
+
 
 
 export default function MyOutletScreen() {
@@ -27,9 +29,11 @@ export default function MyOutletScreen() {
         setOutlet(data)
     }
 
-    useEffect(() => {
-        fetchOutlet()
-    }, [outlet])
+    useFocusEffect(
+        useCallback(() => {
+            fetchOutlet()
+        }, [])
+      );
     return (
         <View style={styles.container}>
             <Text style={{ fontWeight: 'bold', fontSize: 20, marginTop: 10 }}>My Outlet</Text>
